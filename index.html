@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: 600px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .blog-posts {
+            padding: 30px;
+        }
+        
+        .post {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 10px;
+        }
+        
+        .post:hover {
+            transform: translateX(5px);
+        }
+        
+        .post-title {
+            font-family: 'Merriweather', serif;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .post-meta {
+            display: flex;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .author, .date {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .author::before {
+            content: "👤";
+            margin-right: 5px;
+        }
+        
+        .date::before {
+            content: "📅";
+            margin-right: 5px;
+        }
+        
+        .post-content {
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        .read-more {
+            display: inline-block;
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .read-more:hover {
+            color: #a777e3;
+        }
+        
+        .read-more::after {
+            content: " →";
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more:hover::after {
+            transform: translateX(3px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            background-color: #f5f5f5;
+        }
+        
+        /* Post page styles */
+        .post-page {
+            padding: 30px;
+            display: none;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+        }
+        
+        .back-button:hover {
+            color: #a777e3;
+        }
+        
+        .post-page .post-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .post-page .post-meta {
+            margin-bottom: 25px;
+        }
+        
+        .post-page .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .full-content {
+            margin-bottom: 30px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .tag {
+            background-color: #f0f4ff;
+            color: #6e8efb;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .post-title {
+                font-size: 1.5rem;
+            }
+            
+            .post-page .post-title {
+                font-size: 1.8rem;
+            }
+            
+            .blog-posts, .post-page {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="main-title">Simple Blog</h1>
+            <p class="subtitle">Sharing ideas and experiences</p>
+        </header>
+        
+        <div id="blog-list" class="blog-posts">
+            <article class="post" data-id="1">
+                <h2 class="post-title">The Art of Minimalism in Web Design</h2>
+                <div class="post-meta">
+                    <span class="author">By Sarah Johnson</span>
+                    <span class="date">June 12, 2023</span>
+                </div>
+                <p class="post-content">
+                    Minimalism in web design emphasizes simplicity and functionality. By using only essential elements, 
+                    minimalist designs aim to streamline the user experience and focus attention on what truly matters. 
+                    This approach often involves ample white space, crisp typography, and limited color palettes...
+                </p>
+                <a class="read-more">Read more</a>
+            </article>
+            
+            <article class="post" data-id="2">
+                <h2 class="post-title">Understanding CSS Grid Layout</h2>
+                <div class="post-meta">
+                    <span class="author">By Michael Chen</span>
+                    <span class="date">May 28, 2023</span>
+                </div>
+                <p class="post-content">
+                    CSS Grid Layout is a powerful tool for creating complex responsive web design layouts more easily 
+                    and consistently across browsers. Unlike Flexbox which is one-dimensional, Grid allows for two-dimensional 
+                    layouts—rows and columns—giving developers precise control over positioning and sizing...
+                </p>
+                <a class="read-more">Read more</a>
+            </article>
+            
+            <article class="post" data-id="3">
+                <h2 class="post-title">The Future of Responsive Design</h2>
+                <div class="post-meta">
+                    <span class="author">By Emma Rodriguez</span>
+                    <span class="date">April 15, 2023</span>
+                </div>
+                <p class="post-content">
+                    As device diversity continues to expand, responsive design must evolve beyond just screen sizes. 
+                    The next frontier includes responsive typography, adaptive interfaces for different contexts, and 
+                    considerations for connectivity speeds. Future-proof websites will need to be flexible in more ways than ever before...
+                </p>
+                <a class="read-more">Read more</a>
+            </article>
+        </div>
+        
+        <!-- Individual Post Pages -->
+        <div id="post-1" class="post-page">
+            <div class="back-button" onclick="showBlogList()">Back to all posts</div>
+            <h2 class="post-title">The Art of Minimalism in Web Design</h2>
+            <div class="post-meta">
+                <span class="author">By Sarah Johnson</span>
+                <span class="date">June 12, 2023</span>
+            </div>
+            <div class="full-content">
+                <p>Minimalism in web design emphasizes simplicity and functionality. By using only essential elements, minimalist designs aim to streamline the user experience and focus attention on what truly matters.</p>
+                
+                <p>This approach often involves ample white space, crisp typography, and limited color palettes. The goal is to remove any unnecessary elements that don't contribute to the user's journey or the site's purpose.</p>
+                
+                <p>Minimalist design isn't about stripping away personality, but rather about finding the most effective way to communicate through simplicity. When done correctly, it can lead to faster loading times, improved usability, and a more memorable user experience.</p>
+                
+                <p>Some key principles of minimalist web design include:</p>
+                <ul>
+                    <li>Purposeful use of negative space</li>
+                    <li>Limited color schemes with intentional accent colors</li>
+                    <li>Clear typography hierarchy</li>
+                    <li>Strategic use of imagery</li>
+                    <li>Simplified navigation</li>
+                </ul>
+            </div>
+            <div class="tags">
+                <span class="tag">Web Design</span>
+                <span class="tag">Minimalism</span>
+                <span class="tag">UX</span>
+            </div>
+        </div>
+        
+        <div id="post-2" class="post-page">
+            <div class="back-button" onclick="showBlogList()">Back to all posts</div>
+            <h2 class="post-title">Understanding CSS Grid Layout</h2>
+            <div class="post-meta">
+                <span class="author">By Michael Chen</span>
+                <span class="date">May 28, 2023</span>
+            </div>
+            <div class="full-content">
+                <p>CSS Grid Layout is a powerful tool for creating complex responsive web design layouts more easily and consistently across browsers. Unlike Flexbox which is one-dimensional, Grid allows for two-dimensional layouts—rows and columns—giving developers precise control over positioning and sizing.</p>
+                
+                <p>With Grid, you can define both rows and columns, and then place items precisely into the grid cells. This eliminates the need for many of the hacks and workarounds that developers previously used to create complex layouts.</p>
+                
+                <p>Some of the key features of CSS Grid include:</p>
+                <ul>
+                    <li>Fixed and flexible track sizes</li>
+                    <li>Item placement control</li>
+                    <li>Alignment control</li>
+                    <li>Grid areas for naming sections of layout</li>
+                </ul>
+                
+                <p>To use CSS Grid, you define a container as a grid with display: grid, then set up the columns and rows using grid-template-columns and grid-template-rows. You can then place child elements into specific grid cells using grid-column and grid-row properties, or let the browser's auto-placement algorithm position them.</p>
+                
+                <p>CSS Grid works well alongside Flexbox - while Grid is ideal for overall page layout, Flexbox is perfect for arranging items within a component. Together, they provide a complete layout system for the modern web.</p>
+            </div>
+            <div class="tags">
+                <span class="tag">CSS</span>
+                <span class="tag">Web Development</span>
+                <span class="tag">Layout</span>
+            </div>
+        </div>
+        
+        <div id="post-3" class="post-page">
+            <div class="back-button" onclick="showBlogList()">Back to all posts</div>
+            <h2 class="post-title">The Future of Responsive Design</h2>
+            <div class="post-meta">
+                <span class="author">By Emma Rodriguez</span>
+                <span class="date">April 15, 2023</span>
+            </div>
+            <div class="full-content">
+                <p>As device diversity continues to expand, responsive design must evolve beyond just screen sizes. The next frontier includes responsive typography, adaptive interfaces for different contexts, and considerations for connectivity speeds. Future-proof websites will need to be flexible in more ways than ever before.</p>
+                
+                <p>We're moving toward a world where websites need to adapt not just to different screen sizes, but to different contexts, user preferences, and even environmental conditions. This includes:</p>
+                
+                <ul>
+                    <li>Dark mode preferences</li>
+                    <li>Reduced motion preferences</li>
+                    <li>Different input methods (touch, mouse, keyboard, voice)</li>
+                    <li>Variable connectivity conditions</li>
+                </ul>
+                
+                <p>CSS features like container queries will allow components to adapt based on their container size rather than just the viewport, enabling more modular and reusable responsive components.</p>
+                
+                <p>Another emerging trend is the use of AI and machine learning to adapt interfaces in real-time based on user behavior, creating truly personalized experiences that go beyond one-size-fits-all responsive design.</p>
+                
+                <p>As we look to the future, the core principles of responsive design—flexibility, accessibility, and user-centricity—will remain crucial, but the techniques and technologies we use to implement them will continue to evolve.</p>
+            </div>
+            <div class="tags">
+                <span class="tag">Responsive Design</span>
+                <span class="tag">Web Development</span>
+                <span class="tag">Future Tech</span>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Simple Blog. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Function to show a specific post
+        function showPost(postId) {
+            // Hide all post pages and blog list
+            document.querySelectorAll('.post-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById('blog-list').style.display = 'none';
+            
+            // Show the requested post
+            document.getElementById(`post-${postId}`).style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Function to show the blog list
+        function showBlogList() {
+            // Hide all post pages
+            document.querySelectorAll('.post-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show the blog list
+            document.getElementById('blog-list').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Add event listeners when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to blog title to return to main page
+            document.getElementById('main-title').addEventListener('click', showBlogList);
+            
+            // Add click events to each post
+            document.querySelectorAll('.post').forEach(post => {
+                post.addEventListener('click', function() {
+                    const postId = this.getAttribute('data-id');
+                    showPost(postId);
+                });
+            });
+            
+            // Add click events to read more links
+            document.querySelectorAll('.read-more').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent triggering the parent post click
+                    const postId = this.closest('.post').getAttribute('data-id');
+                    showPost(postId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
